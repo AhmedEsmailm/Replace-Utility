@@ -77,16 +77,29 @@ long int GetFileSize(char* File){
 		return FileSize;
 }
 
-char *StringReplaceAll(const char *str, const char *FromString, const char* ToString,size_t *size)
+char *StringReplaceAll(const char *str, const char *FromString, const char* ToString,size_t *size,char sens)
 {
+	int inputsize=*size; 
     char *ReturnPtr;
+	char *casePtr =(char *)malloc(*size);
+	char *ToPtr =(char *)malloc(strlen(FromString));
+	if((casePtr ==NULL)||(ToPtr ==NULL)){	
+			printf("Error in allocating memory to edit :free some memory and retry \n");
+			exit (10);
+		}
+	strncpy(casePtr,str,*size);
+	strncpy(ToPtr,FromString,strlen(FromString));
+	if(sens=='i'){//case insensitive
+	StringToLower(casePtr,*size);
+	StringToLower(ToPtr,strlen(FromString));
+	}
     int i, count = 0;
     int ToStringlen = strlen(ToString);
     int FromStringlen = strlen(FromString);
  
     for (i = 0; i<*size; i++)    
     {
-        if (strstr(&str[i], FromString) == &str[i]) 
+        if (strstr(&casePtr[i], ToPtr) == &casePtr[i]) 
         {
             count++;
             i += FromStringlen - 1;
@@ -99,37 +112,52 @@ char *StringReplaceAll(const char *str, const char *FromString, const char* ToSt
 		}
 
     i = 0;
-    while (*str)
+    while (i<inputsize)
     {
-        if (strstr(str, FromString) == str) //compare the substring with the ToStringstring
+        if (strstr(&casePtr[i], ToPtr) == &casePtr[i]) //compare the substring with the ToStringstring
         {
             strcpy(&ReturnPtr[i], ToString);
             i += ToStringlen; //adding ToStringlength to the ToString string
             str += FromStringlen;//adding the same FromString length the FromString string
+			//casePtr += FromStringlen;//adding the same FromString length the FromString string
         }
-        else
+        else{
         ReturnPtr[i++] = *str++;
+		}
     }
- 
+    free (casePtr);
+	free (ToPtr);
     return ReturnPtr;
 }
 
-char *StringReplaceFirst(const char *str, const char *FromString, const char* ToString,size_t*size)
-{
-    char *ReturnPtr;
+char *StringReplaceFirst(const char *str, const char *FromString, const char* ToString,size_t*size,char sens)
+{	 int inputsize=*size;
+     char *ReturnPtr;
+	char *casePtr =(char *)malloc(*size);
+	char *ToPtr =(char *)malloc(strlen(FromString));
+	if((casePtr ==NULL)||(ToPtr ==NULL)){	
+			printf("Error in allocating memory to edit :free some memory and retry \n");
+			exit (10);
+		}
+	strncpy(casePtr,str,*size);
+	strncpy(ToPtr,FromString,strlen(FromString));
+	if(sens=='i'){//case insensitive
+	StringToLower(casePtr,*size);
+	StringToLower(ToPtr,strlen(FromString));
+	}
     int ToStringlen = strlen(ToString);
     int FromStringlen = strlen(FromString);
     int i=0;
-	char* first=strstr(&str[0], FromString);
+	char* first=strstr(&casePtr[0], ToPtr);
 	*size =*size+ToStringlen - FromStringlen;
     if((ReturnPtr = (char *)malloc(*size))==NULL){	
 			printf("Error in allocating memory to edit :free some memory and retry \n");
 			exit (10);
 		}
 
-    while (*str)
+    while (i<inputsize)
     {
-        if (first== str) //compare the substring with the first ToStringstring
+        if (first== &casePtr[i]) //compare the substring with the first ToStringstring
         {
             strcpy(&ReturnPtr[i], ToString);
             i += ToStringlen; //adding ToStringlength to the ToString string
@@ -138,19 +166,34 @@ char *StringReplaceFirst(const char *str, const char *FromString, const char* To
         else
         ReturnPtr[i++] = *str++;
     }
+	 free (casePtr);
+	free (ToPtr);
     return ReturnPtr;
 }
 
-char *StringReplaceLast(const char *str, const char *FromString, const char* ToString,size_t *size)
+char *StringReplaceLast(const char *str, const char *FromString, const char* ToString,size_t *size,char sens)
 {
+    int inputsize=*size; 
     char *ReturnPtr;
+	char *casePtr =(char *)malloc(*size);
+	char *ToPtr =(char *)malloc(strlen(FromString));
+	if((casePtr ==NULL)||(ToPtr ==NULL)){	
+			printf("Error in allocating memory to edit :free some memory and retry \n");
+			exit (10);
+		}
+	strncpy(casePtr,str,*size);
+	strncpy(ToPtr,FromString,strlen(FromString));
+	if(sens=='i'){//case insensitive
+	StringToLower(casePtr,*size);
+	StringToLower(ToPtr,strlen(FromString));
+	}
     int i, last = 0;
     int ToStringlen = strlen(ToString);
     int FromStringlen = strlen(FromString);
  
     for (i = 0; i<*size; i++)    
     {
-        if (strstr(&str[i], FromString) == &str[i]) 
+        if (strstr(&casePtr[i], ToPtr) == &casePtr[i]) 
         {
             last=i;
             i += FromStringlen - 1;
@@ -164,7 +207,7 @@ char *StringReplaceLast(const char *str, const char *FromString, const char* ToS
 
 
     i = 0;
-    while (*str)
+    while (i<inputsize)
     {
         if (i==last) //compare the substring with the ToStringstring
         {
@@ -175,7 +218,8 @@ char *StringReplaceLast(const char *str, const char *FromString, const char* ToS
         else
         ReturnPtr[i++] = *str++;
     }
- 
+	free(casePtr);
+	free(ToPtr);
     return ReturnPtr;
 }
 

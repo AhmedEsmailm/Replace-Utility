@@ -58,44 +58,30 @@ int main(int argc,char**argv){
              printf("error opening file %s: this file doesn't change\n",WorkingFile);
              continue;
         }
-		if(ArrayOption[1]=='i'){//option i exist
-			StringToLower(StringToReplace,strlen(StringToReplace));
-			StringToLower(InputFilePtr,f_size);
+			
 			if(ArrayOption[2]=='l'){//option l exist
-				OutputFilePtr=StringReplaceLast(InputFilePtr, StringToReplace, ReplacementString,&f_size);
+				OutputFilePtr=StringReplaceLast(InputFilePtr, StringToReplace, ReplacementString,&f_size,ArrayOption[1]);
 				if(ArrayOption[3]=='f'){//nest option for Memory optimization Aspects
 					free(InputFilePtr);
 					InputFilePtr=OutputFilePtr;
 					//free(OutputFilePtr);
-				OutputFilePtr=StringReplaceFirst(InputFilePtr, StringToReplace, ReplacementString,&f_size);	
+				OutputFilePtr=StringReplaceFirst(InputFilePtr, StringToReplace, ReplacementString,&f_size,ArrayOption[1]);	
 			}
 			}//end of option l
 			else if(ArrayOption[3]=='f'){//option f exist
-				OutputFilePtr=StringReplaceFirst(InputFilePtr, StringToReplace, ReplacementString,&f_size);
+				OutputFilePtr=StringReplaceFirst(InputFilePtr, StringToReplace, ReplacementString,&f_size,ArrayOption[1]);
 				if(ArrayOption[2]=='l'){//nest option for Memory optimization Aspects
 					free(InputFilePtr);
 					InputFilePtr=OutputFilePtr;
 					//free(OutputFilePtr);
-				OutputFilePtr=StringReplaceLast(InputFilePtr, StringToReplace, ReplacementString,&f_size);	
+				OutputFilePtr=StringReplaceLast(InputFilePtr, StringToReplace, ReplacementString,&f_size,ArrayOption[1]);	
 			}	
 			}//end of option f
 			else if((ArrayOption[2]==0)&&(ArrayOption[3]==0)){//no l or f exists
-				OutputFilePtr=StringReplaceAll(InputFilePtr, StringToReplace, ReplacementString,&f_size);
+				OutputFilePtr=StringReplaceAll(InputFilePtr, StringToReplace, ReplacementString,&f_size,ArrayOption[1]);
 			}////end of no l or f exists
 	
-		}//end of option i
-		else //option i doesn't exist
-		{
-			if(ArrayOption[2]=='l'){//option l exist
-				OutputFilePtr=StringReplaceLast(InputFilePtr, StringToReplace, ReplacementString,&f_size);
-			}//end of option l
-			if(ArrayOption[3]=='f'){//option f exist
-				OutputFilePtr=StringReplaceFirst(InputFilePtr, StringToReplace, ReplacementString,&f_size);	
-			}//end of option f
-			if((ArrayOption[2]==0)&&(ArrayOption[3]==0)){//no l or f exists
-				OutputFilePtr=StringReplaceAll(InputFilePtr, StringToReplace, ReplacementString,&f_size);
-			}////end of no l or f exists
-		}// end of option i doesn't exist
+		
 		}//end of file not empty
 		else printf( "%s is an empty file \n",WorkingFile);
 		write(fdescrip,OutputFilePtr,f_size);

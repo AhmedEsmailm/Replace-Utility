@@ -20,8 +20,8 @@ char checkoption (int _argc,char** _argv,char option);
 int cp(char* F1, char* F2);
 int StringToLower(char * s,int n);
 long int GetFileSize(char* File);
-char *StringReplaceAll(const char *str, const char *FromString, const char* ToString,size_t *size);
-char *StringReplaceFirst(const char *str, const char *FromString, const char* ToString,size_t *size);
-char *StringReplaceLast(const char *str, const char *FromString, const char* ToString,size_t *size);
+char *StringReplaceAll(const char *str, const char *FromString, const char* ToString,size_t *size,char sens);
+char *StringReplaceFirst(const char *str, const char *FromString, const char* ToString,size_t *size,char sens);
+char *StringReplaceLast(const char *str, const char *FromString, const char* ToString,size_t *size,char sens);
 void BackUP(char* Filename);
 #endif //MY_FUNOCTINS
